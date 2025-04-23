@@ -1,0 +1,24 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v1.15.0'
+    hooks:
+      - id: mypy
+        args: [ --strict, --ignore-missing-imports, --implicit-reexport ]
+        additional_dependencies: [
+          Django==5.1.4,
+          django-stubs==5.1.3,
+          dj_database_url==2.2.0,
+          python-dotenv==1.0.1,
+          starlette==0.37.2,
+          psycopg==3.1.19,
+          celery>=5.4.0,
+          django-celery-beat>=2.7.0,
+          djangorestframework>=3.16.0,
+          "dj-rest-auth[with-social]>=7.0.1",
+        ]
