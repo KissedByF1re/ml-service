@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "drf_spectacular",
     "api.apps.users",
+    "api.apps.billing",
 ]
 
 MIDDLEWARE = [
