@@ -12,6 +12,7 @@ class Balance(models.Model):
     class Currency(models.TextChoices):
         RUB = "RUB", "RUB"
 
+    user_id: int
     user = models.OneToOneField(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -43,6 +44,7 @@ class Transaction(models.Model):
     )
     value = models.IntegerField(verbose_name="Сумма (в копейках)")
     type = models.CharField(max_length=7, choices=Type.choices, verbose_name="Валюта")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
     def __str__(self) -> str:
         return f"{self.user.username} – {self.type} {self.value}"
