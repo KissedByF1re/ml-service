@@ -44,4 +44,4 @@ class BalanceDepositView(UpdateAPIView[Balance]):
     def perform_update(self, serializer: BaseSerializer[Balance]) -> None:
         data = serializer.validated_data
         balance = serializer.save()
-        CreateTransactionUseCase.execute(balance.user_id, value=data["amount"], type_=Transaction.Type.deposit)
+        CreateTransactionUseCase.execute(user_id=balance.user_id, value=data["amount"], type_=Transaction.Type.deposit)
