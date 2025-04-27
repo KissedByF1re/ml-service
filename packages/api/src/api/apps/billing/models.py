@@ -48,3 +48,48 @@ class Transaction(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.username} – {self.type} {self.value}"
+
+
+class Service(models.Model):
+    class Meta(TypedModelMeta):
+        db_table = "services"
+        verbose_name = "услуга"
+        verbose_name_plural = "услуги"
+
+    name = models.CharField(verbose_name="Название")
+    model = models.CharField(verbose_name="Модель")
+    price = models.IntegerField(verbose_name="Цена (в копейках)")
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class ServiceOrder(models.Model):
+    class Meta(TypedModelMeta):
+        db_table = "service_orders"
+        verbose_name = "заказ услуги"
+        verbose_name_plural = "заказы услуг"
+
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="service_orders",
+        verbose_name="Пользователь",
+    )
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.CASCADE,
+        related_name="orders",
+        verbose_name="Услуга",
+    )
+    transaction = models.ForeignKey(
+        Transaction,
+        on_delete=models.CASCADE,
+        related_name="service_orders",
+        verbose_name="Транзакция",
+    )
+    price = models.IntegerField(verbose_name="Цена (в копейках)")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
+
+    def __str__(self) -> str:
+        return f"{self.user.username} – {self.service.name}"
