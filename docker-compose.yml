@@ -60,6 +60,7 @@ services:
     volumes:
       - ./packages/api/src/:/app/src
       - ./packages/api/static/:/var/www/html/static/
+      - shared_temp:/tmp
     ports:
       - "8000:8000"
     env_file:
@@ -70,3 +71,25 @@ services:
       - rabbitmq
     networks:
       - ml-service
+
+  api_celery:
+    build:
+      context: packages/api
+      dockerfile: Dockerfile
+    container_name: api_celery
+    command: "celery -A api.celery_config:app worker -l INFO -E"
+    restart: always
+    volumes:
+      - ./packages/api/src/:/app/src
+      - shared_temp:/tmp
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - ml-service
+
+volumes:
+  shared_temp:

@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
@@ -224,4 +223,4 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_BROKER_URL = RABBITMQ_URL
 CELERY_RESULT_BACKEND = REDIS_URL
-CELERY_WORKER_CONCURRENCY = 1
+CELERY_WORKER_CONCURRENCY = 2
