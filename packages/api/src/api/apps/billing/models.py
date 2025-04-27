@@ -89,6 +89,7 @@ class ServiceOrder(models.Model):
         verbose_name="Транзакция",
     )
     price = models.IntegerField(verbose_name="Цена (в копейках)")
+    is_provided = models.BooleanField(default=False, verbose_name="Предоставлена ли услуга?")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания")
 
     def __str__(self) -> str:
