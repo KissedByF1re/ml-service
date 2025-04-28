@@ -21,4 +21,5 @@ repos:
           "dj-rest-auth[with-social]>=7.0.1",
           drf-spectacular>=0.28.0,
           djangorestframework-stubs==3.15.3,
+          django-cors-headers>=4.7.0,
         ]

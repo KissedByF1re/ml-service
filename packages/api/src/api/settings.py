@@ -56,11 +56,13 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth.registration",
     "drf_spectacular",
+    "corsheaders",
     "api.apps.users",
     "api.apps.billing",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -224,3 +226,6 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_BROKER_URL = RABBITMQ_URL
 CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_WORKER_CONCURRENCY = 2
+
+CORS_ALLOWED_ORIGINS = json.loads(os.getenv("CORS_ALLOWED_ORIGINS", "[]"))
+CORS_ALLOW_CREDENTIALS = str_to_bool(os.getenv("CORS_ALLOW_CREDENTIALS", "False"))
