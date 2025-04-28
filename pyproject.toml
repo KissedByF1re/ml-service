@@ -9,7 +9,7 @@ exclude = [
 ]
 
 [tool.mypy]
-mypy_path = "./packages/api/src"
+mypy_path = "./packages/web/src"
 python_version = "3.11"
 ignore_missing_imports_per_module = true
 ignore_missing_imports = true
@@ -28,4 +28,4 @@ exclude = [
 ]
 
 [tool.django-stubs]
-django_settings_module = "api.settings"
+django_settings_module = "web.settings"

@@ -91,5 +91,23 @@ services:
     networks:
       - ml-service
 
+  web:
+    build:
+      context: packages/web
+      dockerfile: Dockerfile
+    hostname: web
+    restart: always
+    volumes:
+      - ./packages/web/src/:/app/src
+      - ./packages/web/static/:/var/www/html/static/
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - ml-service
+
 volumes:
   shared_temp:
