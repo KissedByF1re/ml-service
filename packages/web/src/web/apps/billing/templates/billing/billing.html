@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Биллинг{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h1 class="mb-4">Ваш биллинг</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Баланс</h5>
+            <p class="card-text" id="balance">Загрузка...</p>
+
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" placeholder="Сумма пополнения" id="depositAmount">
+                <button class="btn btn-primary" onclick="DepositBalance()">Пополнить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Транзакции</h5>
+            <ul class="list-group" id="transactionsList">
+                <li class="list-group-item">Загрузка...</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Оказанные услуги</h5>
+            <ul class="list-group" id="servicesList">
+                <li class="list-group-item">Загрузка...</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    axios.defaults.withCredentials = true;
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
+    }
+
+    function formatTransactionType(type) {
+        if (type === 'debit') return 'Списание';
+        if (type === 'deposit') return 'Пополнение';
+        return type;
+    }
+
+    async function loadBillingData() {
+        try {
+            const balanceResp = await axios.get(`${domain}/api/billing/balance/`);
+            const transactionsResp = await axios.get(`${domain}/api/billing/transactions/`);
+            const servicesResp = await axios.get(`${domain}/api/billing/service_orders/`);
+
+            document.getElementById('balance').innerText = `${balanceResp.data.value} ${balanceResp.data.currency}`;
+
+            const transactionsList = document.getElementById('transactionsList');
+            transactionsList.innerHTML = '';
+            transactionsResp.data.forEach(tx => {
+                const item = document.createElement('li');
+                item.className = 'list-group-item';
+                const formattedDate = formatDate(tx.created_at);
+                const formattedType = formatTransactionType(tx.type);
+                item.innerText = `${formattedDate} ${formattedType}: ${tx.value} ${balanceResp.data.currency}`;
+                transactionsList.appendChild(item);
+            });
+
+            const servicesList = document.getElementById('servicesList');
+            servicesList.innerHTML = '';
+            servicesResp.data.forEach(service => {
+                const item = document.createElement('li');
+                item.className = 'list-group-item';
+                const formattedDate = formatDate(service.created_at);
+                item.innerText = `${formattedDate} ${service.service.name} (${service.service.model}): ${service.price} ${balanceResp.data.currency}`;
+                servicesList.appendChild(item);
+            });
+
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при загрузке данных');
+        }
+    }
+
+    async function DepositBalance() {
+        const amount = document.getElementById('depositAmount').value;
+        if (!amount || amount <= 0) {
+            alert('Введите корректную сумму');
+            return;
+        }
+
+        try {
+            const response = await axios.put(`${domain}/api/billing/balance/deposit/`, {
+                amount: parseInt(amount),
+            });
+
+            document.getElementById('balance').innerText = `${response.data.value} ${response.data.currency}`;
+            document.getElementById('depositAmount').value = '';
+            await loadBillingData();
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при пополнении');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBillingData);
+</script>
+
+    <script>const redirectURL = "{% url 'prediction' %}";</script>
+    <script src={% static "users/login.js" %}></script>
+{% endblock %}

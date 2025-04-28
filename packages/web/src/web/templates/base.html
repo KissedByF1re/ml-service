@@ -25,7 +25,7 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'prediction' %}">Предсказания</a></li>
-                    <li class="nav-item"><a class="nav-link" href="">Биллинг</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'billing' %}">Биллинг</a></li>
                     <li class="nav-item"><button type="button" id="exit-btn" class="nav-link"><i class="bi bi-door-open-fill"></i></button></li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="bi bi-person-circle"></i></a></li>
