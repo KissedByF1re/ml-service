@@ -156,3 +156,4 @@ redis/*
 backup
 rabbitmq/*
 packages/api/static/*
+packages/web/static/*
