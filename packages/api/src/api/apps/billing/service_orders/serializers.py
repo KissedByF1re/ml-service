@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from api.apps.billing.balance.use_cases.balance_debit import BalanceDebitUseCase
 from api.apps.billing.models import ServiceOrder, Service, Transaction
+from api.apps.billing.services.serializers import ServiceSerializer
 from api.apps.billing.transactions.use_cases.create_transaction import CreateTransactionUseCase
 
 
@@ -25,3 +26,11 @@ class ServiceOrderCreateSerializer(serializers.ModelSerializer[ServiceOrder]):
             user_id=user_id, service=service, transaction=transaction, price=service.price
         )
         return service_order
+
+
+class ServiceOrderSerializer(serializers.ModelSerializer[ServiceOrder]):
+    service = ServiceSerializer(read_only=True)
+
+    class Meta:
+        model = ServiceOrder
+        fields = ("service", "price", "created_at")
