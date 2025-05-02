@@ -1,0 +1,21 @@
+[project]
+name = "web"
+version = "1.0.0"
+description = ""
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "dj_database_url==2.3.0",
+  "Django==5.1.4",
+  "django-stubs==5.1.3",
+  "gunicorn==23.0.0",
+  "psycopg[c]==3.2.3",
+  "python-dateutil>=2.9.0.post0",
+  "requests>=2.32.3",
+  "dj-rest-auth[with-social]>=7.0.1",
+  "pre-commit>=4.2.0",
+  "djangorestframework-simplejwt>=5.5.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

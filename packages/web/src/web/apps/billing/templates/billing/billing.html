@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Биллинг{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h1 class="mb-4">Ваш биллинг</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Баланс</h5>
+            <p class="card-text" id="balance">Загрузка...</p>
+
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" placeholder="Сумма пополнения" id="depositAmount">
+                <button class="btn btn-primary" onclick="DepositBalance()">Пополнить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Транзакции</h5>
+            <ul class="list-group" id="transactionsList">
+                <li class="list-group-item">Загрузка...</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Оказанные услуги</h5>
+            <ul class="list-group" id="servicesList">
+                <li class="list-group-item">Загрузка...</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_body %}
+    <script src={% static "billing/billing.js" %}></script>
+{% endblock %}

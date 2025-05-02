@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Предсказания{% endblock %}
+
+{% block content %}
+    <div class="container py-5">
+
+        <h1 class="mb-4">Предсказания</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Выберите услугу и загрузите CSV-файл</h5>
+                <form id="predictionForm">
+                    <div class="mb-3">
+                        <label for="serviceSelect" class="form-label">Услуга</label>
+                        <select class="form-select" id="serviceSelect" required>
+                            <option value="">Выберите услугу</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="csvFile" class="form-label">CSV-файл</label>
+                        <input class="form-control" type="file" id="csvFile" accept=".csv" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Оплатить и предсказать</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4 d-none" id="statusCard">
+            <div class="card-body">
+                <h5 class="card-title">Статус задачи</h5>
+                <p id="taskStatus">Ожидание...</p>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script src={% static "prediction/prediction.js" %}></script>
+{% endblock %}
